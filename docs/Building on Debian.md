@@ -46,12 +46,14 @@ Some DSL methods available include:
 
 | DSL Method           | Description                                 |
 | :------------------: | --------------------------------------------|
+| `gpg_key_id`         | The GPG key ID to sign the DEB with         |
+| `signing_passphrase` | The passphrase to sign the DEB with         |
 | `vendor`             | The name of the package producer            |
 | `license`            | The default license for the package         |
 | `priority`           | The priority for the package                |
 | `section`            | The section for this package                |
 
-If you are unfamilar with any of these terms, you should just accept the defaults. For more information on the purpose of any of these configuration options, please see the DEB spec.
+If you are unfamiliar with any of these terms, you should just accept the defaults. For more information on the purpose of any of these configuration options, please see the DEB spec.
 
 For more information, please see the [`Packager::DEB` documentation](http://rubydoc.info/github/opscode/omnibus/Omnibus/Packager/DEB).
 

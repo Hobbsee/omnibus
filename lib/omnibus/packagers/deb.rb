@@ -60,11 +60,58 @@ module Omnibus
 
       # Create the deb
       create_deb_file
+
+      # Sign the deb
+      sign_deb_file
     end
 
     #
     # @!group DSL methods
     # --------------------------------------------------
+
+    #
+    # Set or return the signing passphrase. If this value is provided,
+    # Omnibus will attempt to sign the RPM.
+    #
+    # @example
+    #   signing_passphrase "foo"
+    #
+    # @param [String] val
+    #   the passphrase to use when signing the DEB
+    #
+    # @return [String]
+    #   the DEB-signing passphrase
+    #
+    def signing_passphrase(val = NULL)
+      if null?(val)
+        @signing_passphrase
+      else
+        @signing_passphrase = val
+      end
+    end
+    expose :signing_passphrase
+
+    #
+    # Set or return the GPG key ID. If this value is provided,
+    # Omnibus will attempt to sign the DEB.
+    #
+    # @example
+    #   gpg_key_id "foo"
+    #
+    # @param [String] val
+    #   the key to use when signing the DEB
+    #
+    # @return [String]
+    #   the DEB-signing GPG key ID
+    #
+    def gpg_key_id(val = NULL)
+      if null?(val)
+        @gpg_key_id
+      else
+        @gpg_key_id = val
+      end
+    end
+    expose :gpg_key_id
 
     #
     # Set or return the vendor who made this package.
@@ -290,6 +337,22 @@ module Omnibus
       # Execute the build command
       Dir.chdir(Config.package_dir) do
         shellout!("fakeroot dpkg-deb -z9 -Zgzip -D --build #{staging_dir} #{package_name}")
+      end
+    end
+
+    #
+    # Sign the +.deb+ file
+    #
+    # @return [void]
+    #
+    def sign_deb_file
+      if signing_passphrase && gpg_key_id
+        log.info(log_key) { "Signing .deb file" }
+
+        # Execute the build command
+        Dir.chdir(Config.package_dir) do
+          shellout!("debsigs --sign=origin -k #{gpg_key_id} #{package_name}")
+        end
       end
     end
 

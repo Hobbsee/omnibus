@@ -234,6 +234,26 @@ module Omnibus
       end
     end
 
+    describe '#sign_deb_file' do
+      before do
+        allow(subject).to receive(:shellout!)
+        allow(Dir).to receive(:chdir) { |_, &b| b.call }
+        allow(subject).to receive(:signing_passphrase).and_return('foobar')
+        allow(subject).to receive(:gpg_key_id).and_return('12345678')
+      end
+
+      it 'logs a message' do
+        output = capture_logging { subject.sign_deb_file }
+        expect(output).to include('Signing .deb file')
+      end
+
+      it 'uses the correct command' do
+        expect(subject).to receive(:shellout!)
+          .with("debsigs --sign=origin -k #{subject.gpg_key_id} #{subject.package_name}")
+        subject.sign_deb_file
+      end
+    end
+
     describe '#package_size' do
       before do
         project.install_dir(staging_dir)

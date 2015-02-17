@@ -67,7 +67,7 @@ Some DSL methods available include:
 | `priority`           | The priority for the package                |
 | `category`           | The category for this package               |
 
-If you are unfamilar with any of these terms, you should just accept the defaults. For more information on the purpose of any of these configuration options, please see the RPM spec.
+If you are unfamiliar with any of these terms, you should just accept the defaults. For more information on the purpose of any of these configuration options, please see the RPM spec.
 
 For more information, please see the [`Packager::RPM` documentation](http://rubydoc.info/github/opscode/omnibus/Omnibus/Packager/RPM).
 
