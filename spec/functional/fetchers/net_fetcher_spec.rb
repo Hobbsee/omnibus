@@ -28,8 +28,6 @@ module Omnibus
 
     subject { described_class.new(manifest_entry, project_dir, build_dir) }
 
-    WebMock.allow_net_connect!
-
     describe '#fetch_required?' do
       context 'when the file is not downloaded' do
         it 'return true' do
