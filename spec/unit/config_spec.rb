@@ -9,6 +9,7 @@ module Omnibus
     end
 
     before do
+      Config.reset!
       # Don't expand paths on the build system. Otherwise, you will end up with
       # paths like +\\Users\\you\\Development\\omnibus-ruby\\C:/omnibus-ruby+
       # when testing on "other" operating systems
@@ -37,7 +38,7 @@ module Omnibus
     include_examples 'a configurable', :project_root, Dir.pwd
     include_examples 'a configurable', :local_software_dirs, []
     include_examples 'a configurable', :software_gems, ['omnibus-software']
-    include_examples 'a configurable', :solaris_compiler, nil
+    include_examples 'a configurable', :solaris_linker_mapfile, 'files/mapfiles/solaris'
     include_examples 'a configurable', :append_timestamp, true
     include_examples 'a configurable', :build_retries, 0
     include_examples 'a configurable', :use_git_caching, true

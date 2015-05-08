@@ -55,6 +55,7 @@ RSpec.configure do |config|
 
     # Reset config
     Omnibus.reset!
+    Omnibus::Config.append_timestamp(false)
 
     # Clear the tmp_path on each run
     FileUtils.rm_rf(tmp_path)
@@ -62,6 +63,9 @@ RSpec.configure do |config|
 
     # Don't run Ohai - tests can still override this
     stub_ohai(platform: 'ubuntu', version: '12.04')
+
+    # Default to real HTTP requests
+    WebMock.allow_net_connect!
   end
 
   config.after(:each) do
